@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,8 @@ class UsersFragment : Fragment() {
     private fun readUsers() {
         val fuser = FirebaseAuth.getInstance().currentUser
         val reference = FirebaseDatabase.getInstance().getReference("Users")
+
+        //Log.d("G", FirebaseDatabase.getInstance().reference.toString())
 
         reference.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {

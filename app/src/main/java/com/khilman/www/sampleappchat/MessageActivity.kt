@@ -132,13 +132,11 @@ class MessageActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(sender: String?, receiver: String?, msg: String) {
+
         var reference = FirebaseDatabase.getInstance().reference
 
         val hashMap: HashMap<String, Any> = hashMapOf()
-        hashMap.put("sender", sender!!)
-        hashMap.put("receiver", receiver!!)
-        hashMap.put("message", msg)
-        hashMap.put("isseen", false)
+        hashMap.put("nama_key", "ISI DATA")
 
         reference.child("Chats").push().setValue(hashMap)
 
