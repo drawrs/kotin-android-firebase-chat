@@ -1,4 +1,4 @@
-package com.khilman.www.sampleappchat.model
+package com.intoverflown.samplechatapp.model
 
 data class User(
     val id: String = "",

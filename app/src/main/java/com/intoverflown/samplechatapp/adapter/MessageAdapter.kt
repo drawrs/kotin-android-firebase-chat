@@ -1,7 +1,7 @@
-package com.khilman.www.sampleappchat.adapter
+package com.intoverflown.samplechatapp.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +10,8 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.khilman.www.sampleappchat.R
-import com.khilman.www.sampleappchat.model.Chat
+import com.intoverflown.samplechatapp.R
+import com.intoverflown.samplechatapp.model.Chat
 
 class MessageAdapter(val context: Context,
                      val mChat: List<Chat>,
@@ -20,12 +20,12 @@ class MessageAdapter(val context: Context,
     val MSG_TYPE_RIGHT = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (viewType == MSG_TYPE_RIGHT){
+        return if (viewType == MSG_TYPE_RIGHT){
             val view = LayoutInflater.from(context).inflate(R.layout.chat_item_right, parent, false)
-            return ViewHolder(view)
+            ViewHolder(view)
         } else {
             val view = LayoutInflater.from(context).inflate(R.layout.chat_item_left, parent, false)
-            return ViewHolder(view)
+            ViewHolder(view)
         }
     }
 
@@ -43,9 +43,9 @@ class MessageAdapter(val context: Context,
 
         if (position == (mChat.size - 1)){
             if (chat.isseen!!){
-                holder.txt_seen.text = "Seen"
+                holder.txt_seen.text = context.getString(R.string.seen)
             } else {
-                holder.txt_seen.text = "Delivered"
+                holder.txt_seen.text = context.getString(R.string.delivered)
             }
         } else {
             holder.txt_seen.visibility = View.GONE
@@ -54,24 +54,19 @@ class MessageAdapter(val context: Context,
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var show_message: TextView
-        var profile_image: ImageView
-        var txt_seen: TextView
+        var show_message: TextView = itemView.findViewById(R.id.show_message)
+        var profile_image: ImageView = itemView.findViewById(R.id.profile_image)
+        var txt_seen: TextView = itemView.findViewById(R.id.txt_seen)
 
-        init {
-            show_message = itemView.findViewById(R.id.show_message)
-            profile_image = itemView.findViewById(R.id.profile_image)
-            txt_seen = itemView.findViewById(R.id.txt_seen)
-        }
     }
 
     private var fuser: FirebaseUser? = null
     override fun getItemViewType(position: Int): Int {
         fuser = FirebaseAuth.getInstance().currentUser
-        if (mChat[position].sender.equals(fuser?.uid)){
-            return MSG_TYPE_RIGHT
+        return if (mChat[position].sender.equals(fuser?.uid)){
+            MSG_TYPE_RIGHT
         } else {
-            return MSG_TYPE_LEFT
+            MSG_TYPE_LEFT
         }
 
     }

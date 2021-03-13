@@ -1,19 +1,21 @@
-package com.khilman.www.sampleappchat
+package com.intoverflown.samplechatapp
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_login2.*
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.*
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.intoverflown.samplechatapp.databinding.ActivityLogin2Binding
 
 class LoginActivity2 : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
@@ -24,9 +26,15 @@ class LoginActivity2 : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     private val RC_SIGN_IN: Int = 199
 
+    private lateinit var binding: ActivityLogin2Binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login2)
+//        setContentView(R.layout.activity_login2)
+        binding = ActivityLogin2Binding.inflate(layoutInflater)
+        val view  = binding.root
+        setContentView(view)
+
         init()
         checkAuthState()
     }
@@ -44,7 +52,7 @@ class LoginActivity2 : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
 
         //2
         mAuth = FirebaseAuth.getInstance()
-        sign_in_button.setOnClickListener {
+        binding.signInButton.setOnClickListener {
             signIn()
         }
     }

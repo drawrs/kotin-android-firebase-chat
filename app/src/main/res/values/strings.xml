@@ -3,4 +3,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_you_password">Forgot you password?</string>
+    <string name="don_t_have_account_register_here">Don\'t have account? Register here</string>
+    <string name="create_a_new_account">Create a new account</string>
+    <string name="username">Username</string>
+    <string name="register">register</string>
+    <string name="hello">hello</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search...</string>
+    <string name="seen">Seen</string>
+    <string name="delivered">Delivered</string>
 </resources>

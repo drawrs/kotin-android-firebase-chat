@@ -1,4 +1,4 @@
-package com.khilman.www.sampleappchat
+package com.intoverflown.samplechatapp
 
 import org.junit.Test
 

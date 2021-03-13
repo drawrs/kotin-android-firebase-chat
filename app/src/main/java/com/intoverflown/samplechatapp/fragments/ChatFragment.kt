@@ -1,23 +1,20 @@
-package com.khilman.www.sampleappchat.fragments
-
+package com.intoverflown.samplechatapp.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
-
-import com.khilman.www.sampleappchat.R
-import com.khilman.www.sampleappchat.adapter.UserAdapter
-import com.khilman.www.sampleappchat.model.Chatlist
-import com.khilman.www.sampleappchat.model.User
-import com.khilman.www.sampleappchat.notifications.Token
-import kotlinx.android.synthetic.main.fragment_chat.*
+import com.intoverflown.samplechatapp.adapter.UserAdapter
+import com.intoverflown.samplechatapp.databinding.FragmentChatBinding
+import com.intoverflown.samplechatapp.model.Chatlist
+import com.intoverflown.samplechatapp.model.User
+import com.intoverflown.samplechatapp.notifications.Token
 
 class ChatFragment : Fragment() {
     lateinit var userAdapter: UserAdapter
@@ -28,19 +25,23 @@ class ChatFragment : Fragment() {
 
     lateinit var usersList: ArrayList<Chatlist>
 
+    private lateinit var binding: FragmentChatBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+//        return inflater.inflate(R.layout.fragment_chat, container, false)
+        binding = FragmentChatBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // setup the view
-        recycler_view.setHasFixedSize(true)
-        recycler_view.layoutManager = LinearLayoutManager(context)
+        this.binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         // get users
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -54,7 +55,7 @@ class ChatFragment : Fragment() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                usersList?.clear()
+                usersList.clear()
                 // put chats data to variable
                 for (snapshot in dataSnapshot.children){
                     val chatlist = snapshot.getValue(Chatlist::class.java)
@@ -85,7 +86,7 @@ class ChatFragment : Fragment() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                mUsers?.clear()
+                mUsers.clear()
                 // ambil data semua chat
                 for (snapshot in dataSnapshot.children){
                     val user = snapshot.getValue(User::class.java)
@@ -99,7 +100,7 @@ class ChatFragment : Fragment() {
 
                 }
                 userAdapter = UserAdapter(context!!, mUsers, true)
-                recycler_view.adapter = userAdapter
+                binding.recyclerView.adapter = userAdapter
             }
 
         })

@@ -1,9 +1,9 @@
-package com.khilman.www.sampleappchat.fragments
+package com.intoverflown.samplechatapp.fragments
 
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +14,10 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
-
-import com.khilman.www.sampleappchat.R
-import com.khilman.www.sampleappchat.model.User
-import kotlinx.android.synthetic.main.fragment_profile.view.*
+import com.intoverflown.samplechatapp.model.User
+import com.intoverflown.samplechatapp.R
+import com.intoverflown.samplechatapp.databinding.FragmentChatBinding
+import com.intoverflown.samplechatapp.databinding.FragmentProfileBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -28,17 +28,21 @@ class ProfileFragment : Fragment() {
     lateinit var refrence: DatabaseReference
     var fuser: FirebaseUser? = null
 
-    lateinit var storageReference: StorageReference
+    private lateinit var storageReference: StorageReference
     val IMAGE_REQUEST = 1
     lateinit var imageUri: Uri
     private var uploadTask: StorageTask<*>? = null
 
+    lateinit var binding: FragmentProfileBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+//        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,23 +59,20 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var user = dataSnapshot.getValue(User::class.java)
+                val user = dataSnapshot.getValue(User::class.java)
 
                 activity?.runOnUiThread {
-                    view.username.text = user?.username
+                    binding.username.text = user?.username
                     if (user?.imageURL.equals("default")){
-                        view.profile_image.setImageResource(R.mipmap.ic_launcher)
+                        binding.profileImage.setImageResource(R.mipmap.ic_launcher)
                     } else {
-                        Glide.with(context!!).load(user?.imageURL).into(view.profile_image)
+                        Glide.with(context!!).load(user?.imageURL).into(binding.profileImage)
                     }
                 }
 
 
             }
         })
-
-
-
     }
 
 }

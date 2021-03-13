@@ -1,24 +1,24 @@
-package com.khilman.www.sampleappchat
+package com.intoverflown.samplechatapp
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.khilman.www.sampleappchat.fragments.ChatFragment
-import com.khilman.www.sampleappchat.fragments.ProfileFragment
-import com.khilman.www.sampleappchat.fragments.UsersFragment
-import com.khilman.www.sampleappchat.model.Chat
-import com.khilman.www.sampleappchat.model.User
-import kotlinx.android.synthetic.main.activity_main.*
+import com.intoverflown.samplechatapp.databinding.ActivityMainBinding
+import com.intoverflown.samplechatapp.fragments.ChatFragment
+import com.intoverflown.samplechatapp.fragments.ProfileFragment
+import com.intoverflown.samplechatapp.fragments.UsersFragment
+import com.intoverflown.samplechatapp.model.Chat
+import com.intoverflown.samplechatapp.model.User
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,10 +26,16 @@ class MainActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser? = null
     lateinit var reference: DatabaseReference
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+//        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view  = binding.root
+        setContentView(view)
+
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -43,13 +49,13 @@ class MainActivity : AppCompatActivity() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val user = dataSnapshot.getValue(User::class.java)
-                username.text = user?.username
+                binding.username.text = user?.username
 
                 if (user?.imageURL.equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher)
+                    binding.profileImage.setImageResource(R.mipmap.ic_launcher)
                 } else {
                     //Change this
-                    Glide.with(applicationContext).load(user?.imageURL).into(profile_image)
+                    Glide.with(applicationContext).load(user?.imageURL).into(binding.profileImage)
                 }
 
             }
@@ -68,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 // get number of unreaded message
                 var unread = 0
                 for (snapshot in dataSnapshot.children) {
-                    val chat = snapshot.getValue(Chat::class.java!!)
+                    val chat = snapshot.getValue(Chat::class.java)
                     if (chat?.receiver?.equals(firebaseUser!!.uid)!! && !chat?.isseen!!){
                         unread++
                     }
@@ -84,8 +90,8 @@ class MainActivity : AppCompatActivity() {
                 viewPageAdapter.addFragment(ProfileFragment(), "Profile")
 
                 // Set adapter
-                view_pager.adapter = viewPageAdapter
-                tab_layout.setupWithViewPager(view_pager)
+                binding.viewPager.adapter = viewPageAdapter
+                binding.tabLayout.setupWithViewPager(binding.viewPager)
             }
 
         })
@@ -96,8 +102,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 //change this code cause your app will crash

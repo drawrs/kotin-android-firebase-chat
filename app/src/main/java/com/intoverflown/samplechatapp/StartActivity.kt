@@ -1,6 +1,6 @@
-package com.khilman.www.sampleappchat
+package com.intoverflown.samplechatapp
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class StartActivity : AppCompatActivity() {

@@ -1,13 +1,11 @@
-package com.khilman.www.sampleappchat.fragments
-
+package com.intoverflown.samplechatapp.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,24 +15,29 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
-import com.khilman.www.sampleappchat.R
-import com.khilman.www.sampleappchat.adapter.UserAdapter
-import com.khilman.www.sampleappchat.model.User
-import kotlinx.android.synthetic.main.fragment_users.view.*
+import com.intoverflown.samplechatapp.BuildConfig
+import com.intoverflown.samplechatapp.R
+import com.intoverflown.samplechatapp.adapter.UserAdapter
+import com.intoverflown.samplechatapp.databinding.FragmentChatBinding
+import com.intoverflown.samplechatapp.databinding.FragmentUsersBinding
+import com.intoverflown.samplechatapp.model.User
+import java.util.*
 
 
 class UsersFragment : Fragment() {
     private var userAdapter: UserAdapter? = null
     private var mUsers: MutableList<User>? = null
 
+    private lateinit var binding : FragmentUsersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false)
+//        return inflater.inflate(R.layout.fragment_users, container, false)
+        binding = FragmentUsersBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     lateinit var searchUsers: EditText
@@ -42,11 +45,12 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchUsers = view.search_users
-        recyclerView = view.recycler_view
+        searchUsers = binding.searchUsers
+        recyclerView = binding.recyclerView
 
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager =
+            LinearLayoutManager(context)
 
         mUsers = arrayListOf()
 
@@ -62,7 +66,7 @@ class UsersFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchUsers(s.toString().toLowerCase())
+                searchUsers(s.toString().toLowerCase(Locale.ROOT))
             }
 
         })
@@ -83,13 +87,17 @@ class UsersFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 mUsers?.clear()
 
-                for (snapshot: DataSnapshot in dataSnapshot.children){
+                for (snapshot: DataSnapshot in dataSnapshot.children) {
                     val user = snapshot.getValue(User::class.java)!!
 
-                    assert(user != null)
-                    assert(fuser != null)
+                    if (BuildConfig.DEBUG && user == null) {
+                        error("Assertion failed")
+                    }
+                    if (BuildConfig.DEBUG && fuser == null) {
+                        error("Assertion failed")
+                    }
 
-                    if (!user?.id.equals(fuser?.uid)){
+                    if (!user.id.equals(fuser?.uid)) {
                         mUsers?.add(user)
                     }
 

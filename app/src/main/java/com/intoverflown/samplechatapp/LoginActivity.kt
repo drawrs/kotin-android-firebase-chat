@@ -1,17 +1,19 @@
-package com.khilman.www.sampleappchat
+package com.intoverflown.samplechatapp
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_login.*
+import com.intoverflown.samplechatapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     var firebaseUser: FirebaseUser? = null
+
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onStart() {
         super.onStart()
@@ -24,9 +26,13 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+//        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view  = binding.root
+        setContentView(view)
 
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setTitle("Login")
@@ -37,9 +43,10 @@ class LoginActivity : AppCompatActivity() {
 //        forgot_password.setOnClickListener {
 //            startActivity(Intent(this, ))
 //        }
-        btn_login.setOnClickListener {
-            val txt_email = email.text.toString()
-            val txt_password = password.text.toString()
+
+        binding.btnLogin.setOnClickListener {
+            val txt_email = binding.email.text.toString()
+            val txt_password = binding.password.text.toString()
 
             if (txt_email.isEmpty() || txt_password.isEmpty()){
                 Toast.makeText(this, "All fileds are required", Toast.LENGTH_LONG).show()
@@ -58,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     }
             }
         }
-        btn_register.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 

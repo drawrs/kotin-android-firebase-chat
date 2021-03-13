@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".LoginActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".LoginActivity">
 
     <include
             android:id="@+id/toolbar"
-            layout="@layout/bar_layout"/>
+            layout="@layout/bar_layout" />
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -21,9 +21,9 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="@string/login"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="10dp"
                 app:met_floatingLabel="normal"
-                android:hint="Email"/>
+                android:hint="@string/email" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
@@ -41,27 +41,27 @@
                 android:inputType="textPassword"
                 android:layout_marginTop="10dp"
                 app:met_floatingLabel="normal"
-                android:hint="Password"/>
+                android:hint="@string/password" />
 
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="login"
+                android:text="@string/login"
                 android:id="@+id/btn_login"
                 android:background="@color/colorPrimaryDark"
                 android:layout_marginTop="10dp"
-                android:textColor="#fff"/>
+                android:textColor="#fff" />
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Forgot you password?"
+                android:text="@string/forgot_you_password"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="end"
                 android:textStyle="bold"
                 android:id="@+id/forgot_password"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
 
@@ -69,13 +69,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Don't have account? Register here"
+            android:text="@string/don_t_have_account_register_here"
             android:layout_marginTop="10dp"
             android:id="@+id/btn_register"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:padding="20dp"
             android:textSize="14sp"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/colorPrimaryDark" />
 
 </RelativeLayout>
